@@ -1,1 +1,1 @@
-# comunicacao-entre-aplicacoes-com-rabbitmq-e-nestjs
+# Comunicação entre aplicações com RabbitMQ e NestJS
