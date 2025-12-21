@@ -5,7 +5,7 @@ import { RabbitMQProviderType } from './rabbitmq.provider';
 
 type Queque = 'email' | 'notifications';
 type Exchange = 'amq.direct';
-type RoutingKey = 'rmq-process';
+type RoutingKey = 'process';
 
 @Injectable()
 export class RabbitmqService {

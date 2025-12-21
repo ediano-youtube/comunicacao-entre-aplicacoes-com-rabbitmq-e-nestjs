@@ -18,13 +18,13 @@
         "tsConfigPath": "apps/api/tsconfig.app.json"
       }
     },
-    "rmq-process": {
+    "process": {
       "type": "application",
-      "root": "apps/rmq-process",
+      "root": "apps/process",
       "entryFile": "main",
-      "sourceRoot": "apps/rmq-process/src",
+      "sourceRoot": "apps/process/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/rmq-process/tsconfig.app.json"
+        "tsConfigPath": "apps/process/tsconfig.app.json"
       }
     }
   }

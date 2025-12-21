@@ -15,6 +15,7 @@ Este projeto é um exemplo prático de comunicação assíncrona entre aplicaç�
 ### 🎯 Objetivo
 
 Demonstrar de forma clara e prática como implementar comunicação assíncrona entre microserviços utilizando RabbitMQ, incluindo:
+
 - Publicação de mensagens em filas
 - Publicação de mensagens em exchanges
 - Consumo de mensagens de múltiplas filas
@@ -25,17 +26,21 @@ Demonstrar de forma clara e prática como implementar comunicação assíncrona 
 O projeto é composto por duas aplicações NestJS independentes:
 
 ### 1. **API** (`apps/api`)
+
 Aplicação REST que expõe endpoints para publicar mensagens no RabbitMQ.
 
 **Endpoints:**
+
 - `GET /default-nest` - Endpoint de teste básico
 - `GET /queue` - Publica mensagem diretamente na fila `email`
-- `GET /exchange` - Publica mensagem no exchange `amq.direct` com routing key `rmq-process`
+- `GET /exchange` - Publica mensagem no exchange `amq.direct` com routing key `process`
 
-### 2. **RMQ-Process** (`apps/rmq-process`)
+### 2. **process** (`apps/process`)
+
 Aplicação consumidora que processa mensagens das filas do RabbitMQ.
 
 **Consumidores:**
+
 - **EmailService**: Consome mensagens da fila `email`
 - **NotificationService**: Consome mensagens da fila `notifications`
 
@@ -43,7 +48,7 @@ Aplicação consumidora que processa mensagens das filas do RabbitMQ.
 
 ```
 ┌─────────────┐         ┌──────────────┐         ┌─────────────────┐
-│   API       │────────▶│  RabbitMQ    │────────▶│  RMQ-Process    │
+│   API       │────────▶│  RabbitMQ    │────────▶│  process    │
 │             │         │              │         │                 │
 │ GET /queue  │────────▶│ Queue: email │────────▶│  EmailService   │
 │             │         │              │         │                 │
@@ -79,7 +84,7 @@ Aplicação consumidora que processa mensagens das filas do RabbitMQ.
 │   │   │   └── main.ts
 │   │   └── test/
 │   │
-│   └── rmq-process/              # Aplicação consumidora de mensagens
+│   └── process/              # Aplicação consumidora de mensagens
 │       ├── src/
 │       │   ├── rabbitmq/         # Módulo RabbitMQ
 │       │   │   ├── rabbitmq.module.ts
@@ -87,8 +92,8 @@ Aplicação consumidora que processa mensagens das filas do RabbitMQ.
 │       │   │   └── rabbitmq.service.ts
 │       │   ├── email.service.ts       # Consumidor da fila 'email'
 │       │   ├── notification.service.ts # Consumidor da fila 'notifications'
-│       │   ├── rmq-process.module.ts
-│       │   ├── rmq-process.service.ts
+│       │   ├── process.module.ts
+│       │   ├── process.service.ts
 │       │   └── main.ts
 │       └── test/
 │
@@ -128,6 +133,7 @@ docker-compose up -d
 ```
 
 Isso irá iniciar:
+
 - **API** na porta `3333`
 - **PostgreSQL** na porta `5432`
 - **RabbitMQ** nas portas `5672` (AMQP) e `15672` (Management UI)
@@ -137,6 +143,7 @@ Isso irá iniciar:
 Abra o navegador em: `http://localhost:15672`
 
 **Credenciais:**
+
 - **Usuário:** `admin`
 - **Senha:** `admin`
 
@@ -164,8 +171,9 @@ curl http://localhost:3333/queue
 ```
 
 Este endpoint:
+
 - Publica uma mensagem na fila `email`
-- A mensagem será consumida pelo `EmailService` no `rmq-process`
+- A mensagem será consumida pelo `EmailService` no `process`
 
 #### 2. Publicar via Exchange
 
@@ -174,15 +182,16 @@ curl http://localhost:3333/exchange
 ```
 
 Este endpoint:
-- Publica uma mensagem no exchange `amq.direct` com routing key `rmq-process`
+
+- Publica uma mensagem no exchange `amq.direct` com routing key `process`
 - A mensagem será distribuída para as filas vinculadas ao exchange
 - Será consumida pelos serviços `EmailService` e `NotificationService`
 
-### Executando o Consumidor (RMQ-Process)
+### Executando o Consumidor (process)
 
 ```bash
 # Em outro terminal
-npm run start rmq-process
+npm run start process
 ```
 
 Os consumidores iniciarão automaticamente e exibirão no console as mensagens recebidas.
@@ -198,7 +207,7 @@ O serviço RabbitMQ (`rabbitmq.service.ts`) fornece métodos para:
 publishInQueue(queue: 'email' | 'notifications', message: string)
 
 // Publicar em um exchange
-publishInExchange(exchange: 'amq.direct', routingKey: 'rmq-process', message: string)
+publishInExchange(exchange: 'amq.direct', routingKey: 'process', message: string)
 
 // Consumir mensagens de uma fila
 consume(queue: 'email' | 'notifications', callback: (message: Message) => void)
@@ -247,8 +256,8 @@ async onModuleInit() {
 deploy:
   resources:
     limits:
-      cpus: "0.5"      # PostgreSQL
-      memory: "128m"    # PostgreSQL
+      cpus: '0.5' # PostgreSQL
+      memory: '128m' # PostgreSQL
 ```
 
 ## 🧪 Testes
@@ -267,17 +276,20 @@ npm run test:cov
 ## 📚 Conceitos Demonstrados
 
 ### 1. **Queue (Fila Direta)**
+
 - Mensagem é enviada diretamente para uma fila específica
 - Um único consumidor processa a mensagem
 - Padrão Point-to-Point
 
 ### 2. **Exchange com Routing Key**
+
 - Mensagem é enviada para um exchange
 - O exchange roteia para múltiplas filas baseado na routing key
 - Múltiplos consumidores podem processar a mesma mensagem
 - Padrão Publish-Subscribe
 
 ### 3. **Acknowledgment (ACK)**
+
 - Confirmação de processamento de mensagens
 - Garante que mensagens não sejam perdidas
 - Implementado com `channel.ack(message)`
@@ -287,6 +299,7 @@ npm run test:cov
 ### RabbitMQ Management UI
 
 Acesse `http://localhost:15672` para:
+
 - Visualizar filas e exchanges
 - Monitorar taxa de mensagens
 - Gerenciar connections e channels
@@ -307,6 +320,7 @@ npm run lint           # Executar ESLint
 ## 📖 Recursos de Aprendizado
 
 Este projeto demonstra:
+
 - ✅ Configuração de monorepo NestJS
 - ✅ Integração com RabbitMQ
 - ✅ Padrões de mensageria (Queue e Exchange)
@@ -320,6 +334,7 @@ Este projeto demonstra:
 ## 🤝 Contribuindo
 
 Este é um projeto educacional. Sinta-se à vontade para:
+
 - Fazer fork do projeto
 - Criar issues com sugestões
 - Enviar pull requests com melhorias

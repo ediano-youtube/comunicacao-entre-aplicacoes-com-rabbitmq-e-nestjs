@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { RmqProcessModule } from './../src/rmq-process.module';
+import { RmqProcessModule } from '../src/process.module';
 
 describe('RmqProcessController (e2e)', () => {
   let app: INestApplication;
