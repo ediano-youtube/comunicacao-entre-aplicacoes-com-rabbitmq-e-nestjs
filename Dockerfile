@@ -6,4 +6,4 @@ USER node
 
 WORKDIR /home/node/nest
 
-CMD [ "tail", "-f", "/dev/null" ]
+CMD [ "sleep", "infinity" ]
