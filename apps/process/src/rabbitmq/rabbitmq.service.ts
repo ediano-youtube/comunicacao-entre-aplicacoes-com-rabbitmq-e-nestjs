@@ -16,8 +16,9 @@ export class RabbitmqService {
     private readonly rabbitMQProvider: RabbitMQProviderType,
   ) {}
 
-  async start() {
-    if (!this.channel) this.channel = await this.rabbitMQProvider;
+  async onModuleInit() {
+    if (!!this.channel) return;
+    this.channel = await this.rabbitMQProvider;
   }
 
   async publishInQueue(queue: Queque, message: string) {

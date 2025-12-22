@@ -1,0 +1,7 @@
+GET http://localhost:3333/default-nest
+
+###
+GET http://localhost:3333/queue
+
+###
+GET http://localhost:3333/exchange
