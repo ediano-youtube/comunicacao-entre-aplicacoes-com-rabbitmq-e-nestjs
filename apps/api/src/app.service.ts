@@ -22,7 +22,7 @@ export class AppService {
     };
     await this.rabbitmqService.publishInExchange(
       'amq.direct',
-      'process',
+      'api-to-process',
       JSON.stringify(data),
     );
   }
