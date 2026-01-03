@@ -1,8 +1,8 @@
 {
   "name": "comunicacao-entre-aplicacoes-com-rabbitmq-e-nestjs",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Exemplo prático de comunicação assíncrona entre aplicações NestJS usando RabbitMQ com padrões de Queue, Exchange e Dead Letter Queue",
+  "author": "Ediano Silva Santos <silva.ediano.santos@gmail.com> (https://ediano.dev)",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -72,7 +72,11 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/"
-    ]
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "^@app/rabbitmq(|/.*)$": "<rootDir>/libs/rabbitmq/src/$1"
+    }
   }
 }

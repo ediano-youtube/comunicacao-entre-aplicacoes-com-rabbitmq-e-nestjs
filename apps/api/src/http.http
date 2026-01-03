@@ -1,0 +1,37 @@
+### ========================================
+### Comunicação entre Aplicações com RabbitMQ
+### REST Client para VS Code
+### ========================================
+
+### 1. Endpoint de Teste
+# Verifica se a API está rodando
+GET http://localhost:3333/default-nest
+Accept: application/json
+
+### ========================================
+
+### 2. Publicar Mensagem em Fila Direta (Queue Pattern)
+# Publica mensagem na fila 'email'
+# A mensagem será consumida apenas pelo EmailService
+# Demonstra o padrão Point-to-Point
+GET http://localhost:3333/queue
+Accept: application/json
+
+### ========================================
+
+### 3. Publicar Mensagem via Exchange (Pub/Sub Pattern)
+# Publica mensagem no exchange 'amq.direct' com routing key 'process'
+# A mensagem será distribuída para múltiplas filas
+# Será consumida por EmailService e NotificationService
+# Demonstra o padrão Publish-Subscribe
+GET http://localhost:3333/exchange
+Accept: application/json
+
+### ========================================
+### Notas:
+### - Certifique-se que a API está rodando na porta 3333
+### - Certifique-se que o RabbitMQ está acessível
+### - Use a extensão "REST Client" no VS Code
+### - Verifique os logs do consumidor (process) para ver as mensagens
+### - Acesse http://localhost:15672 para monitorar filas no RabbitMQ
+### ========================================
