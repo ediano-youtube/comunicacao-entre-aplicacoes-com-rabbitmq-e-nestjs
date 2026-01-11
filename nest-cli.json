@@ -26,6 +26,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/process/tsconfig.app.json"
       }
+    },
+    "rabbiimq": {
+      "type": "library",
+      "root": "libs/rabbiimq",
+      "entryFile": "index",
+      "sourceRoot": "libs/rabbiimq/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/rabbiimq/tsconfig.lib.json"
+      }
     }
   }
 }

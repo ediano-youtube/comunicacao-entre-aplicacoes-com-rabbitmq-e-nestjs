@@ -1,15 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { RabbitmqService } from './rabbitmq/rabbitmq.service';
+
+import { RabbitmqService } from '@lib/rabbiimq';
 
 @Injectable()
 export class NotificationService {
   constructor(private readonly rabbitmqService: RabbitmqService) {}
 
   async onModuleInit() {
-    await this.rabbitmqService.consume('notifications', (message) => {
-      console.log(message.content.toString());
+    await this.rabbitmqService.createAssert('notifications');
+    await this.rabbitmqService.consume(
+      'notifications',
+      async (message) => {
+        console.log(message.content.toString());
 
-      // save on database
-    });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        throw new Error('Test error');
+
+        // save on database
+      },
+      { maxRetries: 5 },
+    );
   }
 }
